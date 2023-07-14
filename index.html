@@ -17,6 +17,8 @@
   </head>
 
   <body>
+    <video id="video" width="640" height="480" autoplay></video>
+    <canvas id="canvas" width="640" height="480"></canvas>
 
     <img src="#">
 
@@ -31,11 +33,31 @@
 
   <script>
 
+    const video = document.getElementById('video');
+
+    navigator.mediaDevices.getUserMedia({video: true})
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(error => {
+            console.error('Error accessing webcam:', error);
+        });
 
 
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
 
-/* 
-2de45e47-3aab-477a-b725-d98bc5126e9e */
+    function captureFrame() {
+
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+
+        //requestAnimationFrame(captureFrame)
+    }
+
+    requestAnimationFrame(captureFrame);
+
+
 
    /*  fetch("https://api.fortnitetracker.com/v1/profile/gamepad/Joeyb43", {
         headers: {
@@ -87,7 +109,7 @@
   }
 } */
 
-async function getFortiteInfo() {
+/* async function getFortiteInfo() {
   try {
     const apiKey = '2de45e47-3aab-477a-b725-d98bc5126e9e';
     const headers = new Headers();
@@ -108,10 +130,11 @@ async function getFortiteInfo() {
     console.error(error);
   }
 }
+getFortiteInfo(); */
 
 
 
-getFortiteInfo();
+
 
   </script>
 
